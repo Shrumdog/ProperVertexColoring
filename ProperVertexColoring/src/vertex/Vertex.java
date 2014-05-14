@@ -15,6 +15,13 @@ public class Vertex {
 		this.color = -1;
 		this.poss = 0;
 	}
+	
+	public Vertex(Vertex other){
+		this.row = other.row;
+		this.col = other.col;
+		this.color = other.color;
+		this.poss = other.poss;
+	}
 
 	public int getRow() {
 		return row;
@@ -26,6 +33,30 @@ public class Vertex {
 
 	public String toString() {
 		return "v[" + row + "," + col + "]" + poss;
+	}
+	
+	public String toStringSans() {
+		return "v[" + row + "," + col + "]";
+	}
+	
+	@Override
+	public int hashCode(){
+		return (int)(Math.pow(row, 2) + Math.pow(col, 3));
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(!(other instanceof Vertex)){
+			return false;
+		} else {
+			return equivalenceCheck((Vertex)other);
+		}
+	}
+	
+	private boolean equivalenceCheck(Vertex other){
+		if(this.row == other.row && this.col == other.col){
+			return true;
+		} return false;
 	}
 
 	public int getColor() {

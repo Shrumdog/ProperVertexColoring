@@ -12,17 +12,59 @@ public class UndirectedGraph<V> {
 	private List<V> verticesView;
 	private HashMap<V,LinkedHashSet<V>> neighbors;
 	private HashMap<V,Set<V>> neighborsView;
-	private int edgeCount;
+	private int edgeCount, numRows, numCols;
 
-	public UndirectedGraph() {
+	public UndirectedGraph(int rows, int cols) {
+		this.numRows = rows; this.numCols = cols;
 		vertices = new ArrayList<V>();
 		verticesView = Collections.unmodifiableList(vertices);
 		neighbors = new HashMap<V,LinkedHashSet<V>>();
 		neighborsView = new HashMap<V,Set<V>>();
 	}
+	
+	public UndirectedGraph(UndirectedGraph<V> g){
+		this.numRows = g.numRows; this.numCols = g.numCols;
+		this.vertices = new ArrayList<V>(g.vertices);
+		this.verticesView = Collections.unmodifiableList(this.vertices);
+		this.neighbors = new HashMap<V, LinkedHashSet<V>>(g.neighbors);
+		this.neighborsView = new HashMap<V, Set<V>>(g.neighborsView);
+	}
+	
+	public UndirectedGraph<V> clone(){
+		UndirectedGraph<V> g = new UndirectedGraph<V>(this);
+		return g;
+	}
+	
+//	private void cloneHashMaps(UndirectedGraph<V> other){
+//		Set<V> keys = this.neighbors.keySet();
+//		for(V v : keys){
+//			Object[] elements = new Object[neighbors.get(v).size()];
+//			elements = neighbors.get(v).toArray(elements);
+//			for(Object obj : elements){
+//				
+//			}
+//		}
+//		
+//	}
+		
+	public int numRows(){
+		return numRows;
+	}
+	
+	public int numCols(){
+		return numCols;
+	}
 
 	public int getVertexCount() {
 		return vertices.size();
+	}
+	
+	public V getVertex(int row, int col){
+		int index = ((row * numCols) + col);
+		if (index < vertices.size()){
+			return vertices.get(index);
+		} return vertices.get(vertices.size() - 1);
+		
 	}
 
 	public V getVertex(int index) {
@@ -86,5 +128,19 @@ public class UndirectedGraph<V> {
 				&& uneighb.remove(vid) && vneighb.remove(uid)) {
 			--edgeCount;
 		}
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(!(other instanceof UndirectedGraph<?>)){return false;}
+		else {return this.equals((UndirectedGraph<V>) other);}
+	}
+	
+	private boolean equals(UndirectedGraph<V> g){
+		if(this.vertices.equals(g.vertices) && 
+				this.neighbors.equals(g.neighbors) &&
+				this.neighborsView.equals(g.neighborsView)){
+			return true;
+		} return false;
 	}
 }

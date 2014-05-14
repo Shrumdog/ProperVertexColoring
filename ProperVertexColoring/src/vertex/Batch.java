@@ -22,7 +22,7 @@ public class Batch {
 		for(int i = 0; i < NUM_TRIALS; i++) {
 			UndirectedGraph<Vertex> g = Main.createGraph(n, p);
 			GreedyColoring.color(g, 3);
-			Searcher searcher = new Searcher(g, 3);
+			Searcher searcher = new N_Changer(g, 3);
 			for(int j = 0; j < 40; j++) searcher.step();
 			searcher.complete();
 			for(Vertex v : g.getVertices()) {

@@ -1,22 +1,20 @@
 package vertex;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-public class Searcher {
-	private UndirectedGraph<Vertex> graph;
-	private int numColors;
+public abstract class Searcher {
+	/*reads in a graph POST GREEDY COLORING
+	 *one step in SEARCHER is to apply one step of an optimization algorithm (or two or so)
+	 */
+	protected UndirectedGraph<Vertex> graph;
+	protected int numColors;
 
 	public Searcher(UndirectedGraph<Vertex> g, int k) {
 		graph = g;
 		numColors = k;
 	}
 
-	public void step() {
-		// Note: GreedyColoring provides colorVertex and uncolorVertex
-		// methods, which are nice subroutines for you to use.
-	}
+	public abstract UndirectedGraph<Vertex> step();
 
 	public void complete() {
+		System.out.println("Search Complete");
 	}
 }

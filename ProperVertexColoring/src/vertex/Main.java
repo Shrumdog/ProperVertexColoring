@@ -38,13 +38,13 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		int n = determineVertices(args);
-		double p = determineProbability(args);
+		int n = 25;//determineVertices(args);
+		double p = .7;//determineProbability(args);
 
 		UndirectedGraph<Vertex> g = createGraph(n, p);
 		GreedyColoring.color(g, 3);
 		printUncoloredCount(g);
-		Searcher searcher = new Searcher(g, 3);
+		Searcher searcher = new N_Changer(g, 3);
 
 		GraphCanvas canvas = GraphCanvas.showWindow(g);
 		Listener l = new Listener(canvas, searcher);
@@ -135,7 +135,7 @@ public class Main {
 	public static UndirectedGraph<Vertex> createGraph(int n, double p) {
 		int rows = (int) Math.sqrt(n);
 		int cols = (int) Math.ceil((double) n / rows);
-		UndirectedGraph<Vertex> g = new UndirectedGraph<Vertex>();
+		UndirectedGraph<Vertex> g = new UndirectedGraph<Vertex>(rows, cols);
 		Random rands = new Random();
 		for(int i = 0; i < n; i++) {
 			g.addVertex(new Vertex(i / cols, i % cols));
@@ -154,6 +154,14 @@ public class Main {
 			}
 		}
 		return g;
+	}
+	
+	public static int getUncoloredCount(UndirectedGraph<Vertex> g){
+		int count = 0;
+		for(Vertex v : g.getVertices()){
+			if(v.getColor() < 0) count++;
+		}
+		return count;
 	}
 
 	public static void printUncoloredCount(UndirectedGraph<Vertex> g) {
